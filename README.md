@@ -7,6 +7,7 @@ This fork is meant to do two things:
 1. [x] Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
 2. [x] Eliminate usage of `activerecord-import`
 3. [ ] Add capability to map a value into an association table before inserting into the destination table
+4. [x] Actually implement map-timestamp-to-column behavior
 
 ## Overview
 

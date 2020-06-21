@@ -61,10 +61,18 @@ module Fluent::Plugin
         super
 
         @mapping = parse_column_mapping(@column_mapping)
-        @format_proc = Proc.new { |record|
+        @format_proc = Proc.new { |record, time|
           new_record = {}
           @mapping.each { |k, c|
-            new_record[c] = record[k]
+            if k == 'timestamp'
+              c.each do |cc|
+                new_record[cc] = Time.at(time)
+              end
+            else
+              c.each do |cc|
+                new_record[cc] = record[k]
+              end
+            end
           }
           new_record
         }
@@ -93,7 +101,7 @@ module Fluent::Plugin
         chunk.msgpack_each { |time, data|
           begin
             data = output.inject_values_to_record(tag, time, data)
-            records << @format_proc.call(data)
+            records << @format_proc.call(data, time)
           rescue => e
             args = {error: e, table: @table, record: Yajl.dump(data)}
             @log.warn "Failed to create the model. Ignore a record:", args
@@ -141,7 +149,8 @@ module Fluent::Plugin
         column_mapping_conf.split(',').each { |column_map|
           key, column = column_map.strip.split(':', 2)
           column = key if column.nil?
-          mapping[key] = column
+          mapping[key] ||= []
+          mapping[key] << column
         }
         mapping
       end
