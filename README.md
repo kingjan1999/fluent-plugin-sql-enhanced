@@ -133,7 +133,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
         # the message comes in with the tag my.rdb.hello.world, "remove_tag_prefix my.rdb"
         # makes it "hello.world", which gets matched here because of "pattern hello.*".
       </table>
-      
+
       <table hello.world>
         table table3
         # This is the second non-default table. You can have as many non-default tables
