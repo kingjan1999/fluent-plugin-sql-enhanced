@@ -26,5 +26,6 @@ Dir.chdir(__dir__) do
     gem.add_development_dependency 'test-unit-rr'
     gem.add_development_dependency 'test-unit-notify'
     gem.add_development_dependency 'pg', '~> 1.0'
+    gem.add_development_dependency 'pry'
   end
 end

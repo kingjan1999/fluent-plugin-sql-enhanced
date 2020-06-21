@@ -1,3 +1,4 @@
+require "pry"
 require "test/unit"
 require "test/unit/rr"
 require "test/unit/notify"
