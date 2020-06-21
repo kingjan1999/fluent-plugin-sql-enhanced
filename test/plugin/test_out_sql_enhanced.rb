@@ -24,7 +24,7 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
 
     <table>
       table logs
-      column_mapping timestamp:created_at,host:host,ident:ident,pid:pid,message:message
+      column_mapping timestamp:created_at,timestamp:updated_at,host:host,ident:ident,pid:pid,message:message
     </table>
   ]
 
@@ -82,6 +82,7 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
 
     default_table = d.instance.instance_variable_get(:@default_table)
     model = default_table.instance_variable_get(:@model)
+    # binding.pry
     assert_equal(2, model.all.count)
     messages = model.pluck(:message).sort
     assert_equal(["message1", "message2"], messages)
@@ -98,8 +99,8 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
 
         default_table = d.instance.instance_variable_get(:@default_table)
         model = default_table.instance_variable_get(:@model)
-        mock(model).import(anything).at_least(1) do
-          raise ActiveRecord::Import::MissingColumnError.new("dummy_table", "dummy_column")
+        mock(model).insert_all(anything).at_least(1) do
+          raise ActiveModel::UnknownAttributeError.new(model.new, 'dummy_column')
         end
         mock(default_table).one_by_one_import(anything)
       end
@@ -115,10 +116,10 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
 
         default_table = d.instance.instance_variable_get(:@default_table)
         model = default_table.instance_variable_get(:@model)
-        mock(model).import([anything, anything]).once do
-          raise ActiveRecord::Import::MissingColumnError.new("dummy_table", "dummy_column")
+        mock(model).insert_all([anything, anything]).once do
+          raise ActiveModel::UnknownAttributeError.new(model.new, 'dummy_column')
         end
-        mock(model).import([anything]).times(12) do
+        mock(model).insert_all([anything]).times(12) do
           raise StandardError
         end
         assert_equal(5, default_table.instance_variable_get(:@num_retries))

@@ -1,7 +1,6 @@
 require "fluent/plugin/output"
 
 require 'active_record'
-require 'activerecord-import'
 
 module Fluent::Plugin
   class SQLEnhancedOutput < Output
@@ -94,15 +93,15 @@ module Fluent::Plugin
         chunk.msgpack_each { |time, data|
           begin
             data = output.inject_values_to_record(tag, time, data)
-            records << @model.new(@format_proc.call(data))
+            records << @format_proc.call(data)
           rescue => e
             args = {error: e, table: @table, record: Yajl.dump(data)}
             @log.warn "Failed to create the model. Ignore a record:", args
           end
         }
         begin
-          @model.import(records)
-        rescue ActiveRecord::StatementInvalid, ActiveRecord::Import::MissingColumnError => e
+          @model.insert_all(records)
+        rescue ActiveRecord::StatementInvalid, ActiveModel::UnknownAttributeError => e
           if @enable_fallback
             # ignore other exceptions to use Fluentd retry mechanizm
             @log.warn "Got deterministic error. Fallback to one-by-one import", error: e
@@ -118,8 +117,8 @@ module Fluent::Plugin
         records.each { |record|
           retries = 0
           begin
-            @model.import([record])
-          rescue ActiveRecord::StatementInvalid, ActiveRecord::Import::MissingColumnError => e
+            @model.insert_all([record])
+          rescue ActiveRecord::StatementInvalid => e
             @log.error "Got deterministic error again. Dump a record", error: e, record: record
           rescue => e
             retries += 1

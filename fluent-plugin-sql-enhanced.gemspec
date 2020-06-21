@@ -20,7 +20,6 @@ Dir.chdir(__dir__) do
 
     gem.add_dependency 'fluentd', ['>= 0.12.17', '< 2']
     gem.add_dependency 'activerecord', '~> 6.0'
-    gem.add_dependency 'activerecord-import', '~> 0.7'
     gem.add_development_dependency 'rake', '>= 0.9.2'
     gem.add_development_dependency 'test-unit', '> 3.1.0'
     gem.add_development_dependency 'test-unit-rr'
