@@ -4,8 +4,9 @@
 
 This fork is meant to do two things:
 
-1. Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
-2. Add capabilities we need, like mapping values into association tables before inserting into the main destination table
+1. [x] Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
+2. [ ] Eliminate usage of `activerecord-import`
+3. [ ] Add capability to map a value into an association table before inserting into the destination table
 
 ## Overview
 
