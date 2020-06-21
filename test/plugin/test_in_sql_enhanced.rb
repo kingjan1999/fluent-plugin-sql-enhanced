@@ -15,8 +15,8 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
     port 5432
     database fluentd_test
 
-    username fluentd
-    password fluentd
+    username some_user
+    password some_password
 
     schema_search_path public
 
@@ -41,8 +41,8 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
       port: 5432,
       adapter: "postgresql",
       database: "fluentd_test",
-      username: "fluentd",
-      password: "fluentd",
+      username: "some_user",
+      password: "some_password",
       schema_search_path: "public",
       tag_prefix: "db"
     }

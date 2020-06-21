@@ -15,8 +15,8 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
     adapter postgresql
 
     database fluentd_test
-    username fluentd
-    password fluentd
+    username some_user
+    password some_password
 
     schema_search_path public
 
@@ -46,8 +46,8 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
       port: 5432,
       adapter: "postgresql",
       database: "fluentd_test",
-      username: "fluentd",
-      password: "fluentd",
+      username: "some_user",
+      password: "some_password",
       schema_search_path: 'public',
       remove_tag_suffix: /^db/,
       enable_fallback: true,
