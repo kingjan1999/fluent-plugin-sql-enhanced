@@ -160,9 +160,7 @@ module Fluent::Plugin
         te
       }
 
-      if config['all_tables']
-        @all_tables = true
-      end
+      @all_tables = !!config['all_tables']
     end
 
     SKIP_TABLE_REGEXP = /\Aschema_migrations\Z/i
