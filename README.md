@@ -1,4 +1,11 @@
-# SQL input plugin for [Fluentd](http://fluentd.org) event collector
+# Enhanced SQL input plugin for [Fluentd](http://fluentd.org) event collector
+
+## Changes
+
+This fork is meant to do two things:
+
+1. Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
+2. Add capabilities we need, like mapping values into association tables before inserting into the main destination table
 
 ## Overview
 
@@ -41,7 +48,7 @@ It stores last selected rows to a file (named *state\_file*) to not forget the l
 ## Input: Configuration
 
     <source>
-      @type sql
+      @type sql_enhanced
 
       host rdb_host
       database rdb_database
@@ -107,7 +114,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
 ## Output: Configuration
 
     <match my.rdb.*>
-      @type sql
+      @type sql_enhanced
       host rdb_host
       port 3306
       database rdb_database

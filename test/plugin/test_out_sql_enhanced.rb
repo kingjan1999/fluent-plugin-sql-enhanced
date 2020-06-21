@@ -1,7 +1,7 @@
 require "helper"
 require "fluent/test/driver/output"
 
-class SqlOutputTest < Test::Unit::TestCase
+class SQLEnhancedOutputTest < Test::Unit::TestCase
   def setup
     Fluent::Test.setup
   end
@@ -29,7 +29,7 @@ class SqlOutputTest < Test::Unit::TestCase
   ]
 
   def create_driver(conf = CONFIG)
-    Fluent::Test::Driver::Output.new(Fluent::Plugin::SQLOutput).configure(conf)
+    Fluent::Test::Driver::Output.new(Fluent::Plugin::SQLEnhancedOutput).configure(conf)
   end
 
   def test_configure

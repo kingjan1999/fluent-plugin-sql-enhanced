@@ -3,14 +3,14 @@ $:.push File.expand_path('../lib', __FILE__)
 
 Dir.chdir(__dir__) do
   Gem::Specification.new do |gem|
-    gem.name        = 'fluent-plugin-sql'
-    gem.description = 'SQL input/output plugin for Fluentd event collector'
-    gem.homepage    = 'https://github.com/fluent/fluent-plugin-sql-enhanced'
+    gem.name        = 'fluent-plugin-sql-enhanced'
+    gem.description = 'Enhanced SQL input/output plugin for Fluentd event collector'
+    gem.homepage    = 'https://github.com/ThryveWork/fluent-plugin-sql-enhanced'
     gem.summary     = gem.description
     gem.version     = File.read('VERSION').strip
-    gem.authors     = ['Sadayuki Furuhashi']
-    gem.email       = 'frsyuki@gmail.com'
-    gem.license     = 'Apache-2.0'
+    gem.authors     = ['Jon Frisby']
+    gem.email       = 'jon@thryve.work'
+    gem.license     = 'Proprietary'
     #gem.platform    = Gem::Platform::RUBY
 
     gem.files         = `git ls-files -z`.split("\x0")

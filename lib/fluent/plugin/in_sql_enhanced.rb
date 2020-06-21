@@ -22,7 +22,7 @@ module Fluent::Plugin
 
   require 'active_record'
 
-  class SQLInput < Input
+  class SQLEnhancedInput < Input
     Fluent::Plugin.register_input('sql', self)
 
     desc 'RDBMS host'
@@ -191,7 +191,7 @@ module Fluent::Plugin
       # ActiveRecord requires the base_model to have a name. Here sets name
       # of an anonymous class by assigning it to a constant. In Ruby, class has
       # a name of a constant assigned first
-      SQLInput.const_set("BaseModel_#{rand(1 << 31)}", @base_model)
+      SQLEnhancedInput.const_set("BaseModel_#{rand(1 << 31)}", @base_model)
 
       # Now base_model can have independent configuration from ActiveRecord::Base
       @base_model.establish_connection(config)

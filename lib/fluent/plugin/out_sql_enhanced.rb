@@ -4,7 +4,7 @@ require 'active_record'
 require 'activerecord-import'
 
 module Fluent::Plugin
-  class SQLOutput < Output
+  class SQLEnhancedOutput < Output
     Fluent::Plugin.register_output('sql', self)
 
     helpers :inject, :compat_parameters, :event_emitter
@@ -40,7 +40,7 @@ module Fluent::Plugin
 
     attr_accessor :tables
 
-    # TODO: Merge SQLInput's TableElement
+    # TODO: Merge SQLEnhancedInput's TableElement
     class TableElement
       include Fluent::Configurable
 
@@ -72,7 +72,7 @@ module Fluent::Plugin
       end
 
       def init(base_model)
-        # See SQLInput for more details of following code
+        # See SQLEnhancedInput for more details of following code
         table_name = @table
         @model = Class.new(base_model) do
           self.table_name = table_name
@@ -205,7 +205,7 @@ module Fluent::Plugin
         self.abstract_class = true
       end
 
-      SQLOutput.const_set("BaseModel_#{rand(1 << 31)}", @base_model)
+      SQLEnhancedOutput.const_set("BaseModel_#{rand(1 << 31)}", @base_model)
       ActiveRecord::Base.establish_connection(config)
 
       # ignore tables if TableElement#init failed

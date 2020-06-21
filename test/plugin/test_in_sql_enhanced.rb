@@ -1,7 +1,7 @@
 require "helper"
 require "fluent/test/driver/input"
 
-class SqlInputTest < Test::Unit::TestCase
+class SQLEnhancedInputTest < Test::Unit::TestCase
   def setup
     Fluent::Test.setup
   end
@@ -31,7 +31,7 @@ class SqlInputTest < Test::Unit::TestCase
   ]
 
   def create_driver(conf = CONFIG)
-    Fluent::Test::Driver::Input.new(Fluent::Plugin::SQLInput).configure(conf)
+    Fluent::Test::Driver::Input.new(Fluent::Plugin::SQLEnhancedInput).configure(conf)
   end
 
   def test_configure
