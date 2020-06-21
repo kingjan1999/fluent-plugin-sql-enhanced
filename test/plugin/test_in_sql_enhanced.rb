@@ -66,6 +66,8 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
 
   def test_message
     d = create_driver(CONFIG + "select_interval 1")
+    d.instance.username = ''
+    d.instance.password = ''
     Message.create!(message: "message 1")
     Message.create!(message: "message 2")
     Message.create!(message: "message 3")

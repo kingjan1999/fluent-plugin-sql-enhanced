@@ -32,6 +32,13 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
     Fluent::Test::Driver::Output.new(Fluent::Plugin::SQLEnhancedOutput).configure(conf)
   end
 
+  def create_usable_driver(conf = CONFIG)
+    drv = create_driver(conf)
+    drv.instance.username = ''
+    drv.instance.password = ''
+    drv
+  end
+
   def test_configure
     d = create_driver
     expected = {
@@ -65,7 +72,7 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
   end
 
   def test_emit
-    d = create_driver
+    d = create_usable_driver
     time = Time.parse("2011-01-02 13:14:15 UTC").to_i
 
     d.run(default_tag: 'test') do
@@ -82,7 +89,7 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
 
   class Fallback < self
     def test_simple
-      d = create_driver
+      d = create_usable_driver
       time = Time.parse("2011-01-02 13:14:15 UTC").to_i
 
       d.run(default_tag: 'test') do
@@ -99,7 +106,7 @@ class SQLEnhancedOutputTest < Test::Unit::TestCase
     end
 
     def test_limit
-      d = create_driver
+      d = create_usable_driver
       time = Time.parse("2011-01-02 13:14:15 UTC").to_i
 
       d.run(default_tag: 'test') do

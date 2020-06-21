@@ -1,8 +1,8 @@
 require "active_record"
 ActiveRecord::Base.establish_connection(host: "localhost",
                                         port: 5432,
-                                        username: "fluentd",
-                                        password: "fluentd",
+                                        username: "",
+                                        password: "",
                                         adapter: "postgresql",
                                         database: "fluentd_test")
 ActiveRecord::Schema.define(version: 20160225030107) do
