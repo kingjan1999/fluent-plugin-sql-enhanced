@@ -124,7 +124,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
       username myusername
       password mypassword
       socket path_to_socket
-      remove_tag_prefix my.rdb # optional, dual of tag_prefix in in_sql
+      remove_tag_prefix my.rdb. # optional, dual of tag_prefix in in_sql
 
       <table>
         table table1
@@ -139,7 +139,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
         table table2
         # This is the non-default table. It is chosen if the tag matches the pattern
         # AFTER remove_tag_prefix is applied to the incoming event. For example, if
-        # the message comes in with the tag my.rdb.hello.world, "remove_tag_prefix my.rdb"
+        # the message comes in with the tag my.rdb.hello.world, "remove_tag_prefix my.rdb."
         # makes it "hello.world", which gets matched here because of "pattern hello.*".
       </table>
 
