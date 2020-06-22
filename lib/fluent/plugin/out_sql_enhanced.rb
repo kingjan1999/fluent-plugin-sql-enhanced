@@ -32,6 +32,7 @@ module Fluent::Plugin
     config_param :pool, :integer, default: 5
     desc "specifies the timeout to establish a new connection to the database before failing"
     config_param :timeout, :integer, default: 5000
+    config_param :skip_default_table, :bool, default: false
 
     config_section :buffer do
       config_set_default :chunk_keys, ["tag"]
@@ -188,7 +189,7 @@ module Fluent::Plugin
         log.warn "connection pool size is smaller than buffer's flush_thread_count. Recommend to increase pool value", :pool => @pool, :flush_thread_count => @buffer_config.flush_thread_count
       end
 
-      if @default_table.nil?
+      if @default_table.nil? && !@skip_default_table
         raise Fluent::ConfigError, "There is no default table. <table> is required in sql output"
       end
     end
@@ -220,7 +221,7 @@ module Fluent::Plugin
       @tables.reject! do |te|
         init_table(te, @base_model)
       end
-      init_table(@default_table, @base_model)
+      init_table(@default_table, @base_model) if @default_table
     end
 
     def shutdown
@@ -233,14 +234,17 @@ module Fluent::Plugin
 
     def write(chunk)
       ActiveRecord::Base.connection_pool.with_connection do
-
+        tag = format_tag(chunk.metadata.tag)
         @tables.each { |table|
-          tag = format_tag(chunk.metadata.tag)
           if table.pattern.match(tag)
             return table.import(chunk, self)
           end
         }
-        @default_table.import(chunk, self)
+        if @default_table
+          @default_table.import(chunk, self)
+        else
+          log.error "No matching table for chunk with tag '#{chunk.metadata.tag}' (formatted to: '#{tag}')."
+        end
       end
     end
 
