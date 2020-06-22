@@ -23,7 +23,7 @@ module Fluent::Plugin
   require 'active_record'
 
   class SQLEnhancedInput < Input
-    Fluent::Plugin.register_input('sql', self)
+    Fluent::Plugin.register_input('sql_enhanced', self)
 
     desc 'RDBMS host'
     config_param :host, :string

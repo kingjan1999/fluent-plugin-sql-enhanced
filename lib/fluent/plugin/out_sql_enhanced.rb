@@ -4,7 +4,7 @@ require 'active_record'
 
 module Fluent::Plugin
   class SQLEnhancedOutput < Output
-    Fluent::Plugin.register_output('sql', self)
+    Fluent::Plugin.register_output('sql_enhanced', self)
 
     helpers :inject, :compat_parameters, :event_emitter
 
