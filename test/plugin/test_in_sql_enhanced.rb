@@ -84,9 +84,9 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
       [d.events[2][1], "message 3"],
     ]
     actual = [
-      [Time.parse(d.events[0][2]["updated_at"]).to_i, d.events[0][2]["message"]],
-      [Time.parse(d.events[1][2]["updated_at"]).to_i, d.events[1][2]["message"]],
-      [Time.parse(d.events[2][2]["updated_at"]).to_i, d.events[2][2]["message"]],
+      [Fluent::EventTime.parse(d.events[0][2]["updated_at"]), d.events[0][2]["message"]],
+      [Fluent::EventTime.parse(d.events[1][2]["updated_at"]), d.events[1][2]["message"]],
+      [Fluent::EventTime.parse(d.events[2][2]["updated_at"]), d.events[2][2]["message"]],
     ]
     assert_equal(expected, actual)
   end
