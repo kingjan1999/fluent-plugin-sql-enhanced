@@ -15,8 +15,8 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
     port 5432
     database fluentd_test
 
-    username some_user
-    password some_password
+    username fluentd
+    password fluentd
 
     schema_search_path public
 
@@ -41,8 +41,8 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
       port: 5432,
       adapter: "postgresql",
       database: "fluentd_test",
-      username: "some_user",
-      password: "some_password",
+      username: "fluentd",
+      password: "fluentd",
       schema_search_path: "public",
       tag_prefix: "db"
     }
@@ -66,8 +66,6 @@ class SQLEnhancedInputTest < Test::Unit::TestCase
 
   def test_message
     d = create_driver(CONFIG + "select_interval 1")
-    d.instance.username = ''
-    d.instance.password = ''
     Message.create!(message: "message 1")
     Message.create!(message: "message 2")
     Message.create!(message: "message 3")

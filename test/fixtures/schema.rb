@@ -1,8 +1,8 @@
 require "active_record"
 ActiveRecord::Base.establish_connection(host: "localhost",
                                         port: 5432,
-                                        username: "",
-                                        password: "",
+                                        username: "fluentd",
+                                        password: "fluentd",
                                         adapter: "postgresql",
                                         database: "fluentd_test")
 ActiveRecord::Schema.define(version: 20160225030107) do
@@ -28,4 +28,3 @@ ActiveRecord::Schema.define(version: 20160225030107) do
     t.string "custom_time"
   end
 end
-
