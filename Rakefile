@@ -15,6 +15,7 @@ task :default => [:build]
 namespace :db do
   desc 'Create test DB'
   task :create do
-    sh 'psql -d template1 -c "CREATE DATABASE fluentd_test;"'
+    sh 'psql -d template1 -c "CREATE ROLE fluentd WITH LOGIN ENCRYPTED PASSWORD \'fluentd\';"'
+    sh 'psql -d template1 -c "CREATE DATABASE fluentd_test OWNER fluentd;"'
   end
 end
