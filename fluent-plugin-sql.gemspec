@@ -1,6 +1,9 @@
 # encoding: utf-8
 $:.push File.expand_path('../lib', __FILE__)
 
+Dir.chdir(__dir__) do
+
+# N.B. Not indenting to make diffing against upstream a little easier.
 Gem::Specification.new do |gem|
   gem.name        = "fluent-plugin-sql"
   gem.description = "SQL input/output plugin for Fluentd event collector"
@@ -10,9 +13,9 @@ Gem::Specification.new do |gem|
   gem.authors     = ["Sadayuki Furuhashi"]
   gem.email       = "frsyuki@gmail.com"
   #gem.platform    = Gem::Platform::RUBY
-  gem.files       = `git ls-files`.split("\n")
-  gem.test_files  = `git ls-files -- {test,spec,features}/*`.split("\n")
-  gem.executables = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
+  gem.files       = `git ls-files -z`.split("\x0")
+  gem.test_files  = `git ls-files -z -- {test,spec,features}/*`.split("\x0")
+  gem.executables = `git ls-files -z -- bin/*`.split("\x0").map{ |f| File.basename(f) }
   gem.require_paths = ['lib']
   gem.license = "Apache-2.0"
 
@@ -24,4 +27,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency "test-unit-rr"
   gem.add_development_dependency "test-unit-notify"
   gem.add_development_dependency "pg", '~> 1.0'
+end
+
 end

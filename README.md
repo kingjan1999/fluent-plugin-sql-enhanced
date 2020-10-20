@@ -1,4 +1,14 @@
-# SQL input plugin for [Fluentd](http://fluentd.org) event collector
+# Enhanced SQL input plugin for [Fluentd](http://fluentd.org) event collector
+
+## Changes
+
+This fork is meant to do two things:
+
+1. [x] Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
+2. [x] Eliminate usage of `activerecord-import`
+3. [ ] Add capability to map a value into an association table before inserting into the destination table
+4. [x] Actually implement map-timestamp-to-column behavior
+5. [x] Eliminate need for default table
 
 ## Overview
 
@@ -36,7 +46,9 @@ See also this comment: https://github.com/fluent/fluent-plugin-sql/issues/87#iss
 
 This plugin runs following SQL periodically:
 
-SELECT * FROM *table* WHERE *update\_column* > *last\_update\_column\_value* ORDER BY *update_column* ASC LIMIT 500
+```sql
+SELECT * FROM *table* WHERE *update_column* > *last_update_column_value* ORDER BY *update_column* ASC LIMIT 500
+```
 
 What you need to configure is *update\_column*. The column should be an incremental column (such as AUTO\_ INCREMENT primary key) so that this plugin reads newly INSERTed rows. Alternatively, you can use a column incremented every time when you update the row (such as `last_updated_at` column) so that this plugin reads the UPDATEd rows as well.
 If you omit to set *update\_column* parameter, it uses primary key.
@@ -46,7 +58,7 @@ It stores last selected rows to a file (named *state\_file*) to not forget the l
 ## Input: Configuration
 
     <source>
-      @type sql
+      @type sql_enhanced
 
       host rdb_host
       database rdb_database
@@ -112,7 +124,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
 ## Output: Configuration
 
     <match my.rdb.*>
-      @type sql
+      @type sql_enhanced
       host rdb_host
       port 3306
       database rdb_database
@@ -120,7 +132,7 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
       username myusername
       password mypassword
       socket path_to_socket
-      remove_tag_prefix my.rdb # optional, dual of tag_prefix in in_sql
+      remove_tag_prefix my.rdb. # optional, dual of tag_prefix in in_sql
 
       <table>
         table table1
@@ -135,10 +147,10 @@ This plugin takes advantage of ActiveRecord underneath. For `host`, `port`, `dat
         table table2
         # This is the non-default table. It is chosen if the tag matches the pattern
         # AFTER remove_tag_prefix is applied to the incoming event. For example, if
-        # the message comes in with the tag my.rdb.hello.world, "remove_tag_prefix my.rdb"
+        # the message comes in with the tag my.rdb.hello.world, "remove_tag_prefix my.rdb."
         # makes it "hello.world", which gets matched here because of "pattern hello.*".
       </table>
-      
+
       <table hello.world>
         table table3
         # This is the second non-default table. You can have as many non-default tables
