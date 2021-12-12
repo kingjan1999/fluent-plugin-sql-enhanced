@@ -60,6 +60,7 @@ module Fluent::Plugin
       config_param :time_column, :string, default: nil
       config_param :primary_key, :string, default: nil
       config_param :time_format, :string, default: '%Y-%m-%d %H:%M:%S.%6N%z'
+      config_param :where_condition, :string, default: nil
       attr_reader :log
 
       def configure(conf)
@@ -130,6 +131,9 @@ module Fluent::Plugin
         relation = @model
         if last_record && last_update_value = last_record[@update_column]
           relation = relation.where("#{@update_column} > ?", last_update_value)
+        end
+        if @where_condition
+          relation = relation.where(@where_condition)
         end
         relation = relation.order("#{@update_column} ASC")
         relation = relation.limit(limit) if limit > 0

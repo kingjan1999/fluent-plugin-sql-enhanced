@@ -2,13 +2,14 @@
 
 ## Changes
 
-This fork is meant to do two things:
+This fork is meant to do several things:
 
 1. [x] Either bring ActiveRecord support up-to-date, or eliminate the usage of ActiveRecord
 2. [x] Eliminate usage of `activerecord-import`
 3. [ ] Add capability to map a value into an association table before inserting into the destination table
 4. [x] Actually implement map-timestamp-to-column behavior
 5. [x] Eliminate need for default table
+6. [x] Add capability to specify another `where` condition
 
 ## Overview
 
@@ -42,7 +43,7 @@ If you use ruby 2.1, use pg gem 0.21.0 (< 1.0.0) because ActiveRecord 5.1.4 or e
 This plugin runs following SQL periodically:
 
 ```sql
-SELECT * FROM *table* WHERE *update_column* > *last_update_column_value* ORDER BY *update_column* ASC LIMIT 500
+SELECT * FROM *table* WHERE *update_column* > *last_update_column_value* AND *where_condition* ORDER BY *update_column* ASC LIMIT 500
 ```
 
 What you need to configure is *update\_column*. The column should be an incremental column (such as AUTO\_ INCREMENT primary key) so that this plugin reads newly INSERTed rows. Alternatively, you can use a column incremented every time when you update the row (such as `last_updated_at` column) so that this plugin reads the UPDATEd rows as well.
@@ -74,6 +75,7 @@ It stores last selected rows to a file (named *state\_file*) to not forget the l
         tag table1  # optional
         update_column update_col1
         time_column time_col2  # optional
+        where_condition col = 'value'
       </table>
 
       <table>
